@@ -1,0 +1,620 @@
+[
+  {
+    "id": "JST-001",
+    "title": "გაშვების მოცულობის საბოლოო შეთანხმება",
+    "area": "პროდუქტი და ფუნქციები",
+    "priority": "P0",
+    "status": "Backlog",
+    "owner": "Founder",
+    "due": "2026-11-30",
+    "acceptance": "Web-only, ღია რეგისტრაცია; კრიტიკული მომხმარებლის გზა; გამორიცხული ფუნქციების სია.",
+    "notes": "",
+    "branch": "",
+    "evidence": "",
+    "updated": "2026-11-14",
+    "kind": "task",
+    "description": "Web-only, ღია რეგისტრაცია; კრიტიკული მომხმარებლის გზა; გამორიცხული ფუნქციების სია.",
+    "phase": 0,
+    "dependencies": [],
+    "report": "",
+    "verification": "",
+    "links": "",
+    "comments": "",
+    "brief": "",
+    "needsVerification": true
+  },
+  {
+    "id": "JST-002",
+    "title": "ძირითადი მომხმარებლის გზების UX აუდიტი",
+    "area": "UI/UX და დიზაინსისტემა",
+    "priority": "P0",
+    "status": "Backlog",
+    "owner": "Codex",
+    "due": "2026-12-05",
+    "acceptance": "Registration → onboarding → self-insights → people discovery; mobile-first შეფასება.",
+    "notes": "",
+    "branch": "",
+    "evidence": "",
+    "updated": "2026-11-14",
+    "kind": "task",
+    "description": "Registration → onboarding → self-insights → people discovery; mobile-first შეფასება.",
+    "phase": 1,
+    "dependencies": [
+      "JST-001"
+    ],
+    "report": "",
+    "verification": "",
+    "links": "",
+    "comments": "",
+    "brief": "",
+    "needsVerification": true
+  },
+  {
+    "id": "JST-003",
+    "title": "მთავარი ეკრანის ინფორმაციული იერარქიის რედიზაინი",
+    "area": "UI/UX და დიზაინსისტემა",
+    "priority": "P0",
+    "status": "Backlog",
+    "owner": "Gemini",
+    "due": "",
+    "acceptance": "რეფერენსები, დაბალი დეტალიზაციის პროტოტიპი, Founder review.",
+    "notes": "",
+    "branch": "",
+    "evidence": "",
+    "updated": "2026-11-14",
+    "kind": "task",
+    "description": "რეფერენსები, დაბალი დეტალიზაციის პროტოტიპი, Founder review.",
+    "phase": 1,
+    "dependencies": [
+      "JST-001"
+    ],
+    "report": "",
+    "verification": "",
+    "links": "",
+    "comments": "",
+    "brief": "",
+    "needsVerification": true
+  },
+  {
+    "id": "JST-004",
+    "title": "ლოგოსა და ფერთა მიმართულების შერჩევა",
+    "area": "UI/UX და დიზაინსისტემა",
+    "priority": "P1",
+    "status": "Backlog",
+    "owner": "Founder",
+    "due": "",
+    "acceptance": "2–3 რეალური ვარიანტის შეფასება; დიზაინს ჯერ საბოლოო სტატუსი არ აქვს.",
+    "notes": "",
+    "branch": "",
+    "evidence": "",
+    "updated": "2026-11-14",
+    "kind": "task",
+    "description": "2–3 რეალური ვარიანტის შეფასება; დიზაინს ჯერ საბოლოო სტატუსი არ აქვს.",
+    "phase": 1,
+    "dependencies": [
+      "JST-001"
+    ],
+    "report": "",
+    "verification": "",
+    "links": "",
+    "comments": "",
+    "brief": "",
+    "needsVerification": true
+  },
+  {
+    "id": "JST-005",
+    "title": "JesterAI JWT და საუბრის ფლობის შემოწმება",
+    "area": "JesterAI ინტეგრაცია",
+    "priority": "P0",
+    "status": "Backlog",
+    "owner": "Codex",
+    "due": "2026-12-15",
+    "acceptance": "Auth-verified user identity; history ownership; private context boundaries.",
+    "notes": "",
+    "branch": "",
+    "evidence": "",
+    "updated": "2026-11-14",
+    "kind": "task",
+    "description": "Auth-verified user identity; history ownership; private context boundaries.",
+    "phase": 1,
+    "dependencies": [
+      "JST-001"
+    ],
+    "report": "",
+    "verification": "",
+    "links": "",
+    "comments": "",
+    "brief": "",
+    "needsVerification": true
+  },
+  {
+    "id": "JST-006",
+    "title": "JesterAI მუდმივი ჩატის ისტორია და 3+5 კვოტები",
+    "area": "JesterAI ინტეგრაცია",
+    "priority": "P0",
+    "status": "Backlog",
+    "owner": "Gemini",
+    "due": "2026-12-20",
+    "acceptance": "3 საწყისი ტექსტური კითხვა; ამოწურვის შემდეგ ერთხელ 5 საჩუქარი; idempotency და refund.",
+    "notes": "",
+    "branch": "",
+    "evidence": "",
+    "updated": "2026-11-14",
+    "kind": "task",
+    "description": "3 საწყისი ტექსტური კითხვა; ამოწურვის შემდეგ ერთხელ 5 საჩუქარი; idempotency და refund.",
+    "phase": 1,
+    "dependencies": [
+      "JST-001"
+    ],
+    "report": "",
+    "verification": "",
+    "links": "",
+    "comments": "",
+    "brief": "",
+    "needsVerification": true
+  },
+  {
+    "id": "JST-007",
+    "title": "დღის ენერგიიდან ჩატის გახსნა და გაზიარება",
+    "area": "პროდუქტი და ფუნქციები",
+    "priority": "P1",
+    "status": "Backlog",
+    "owner": "Gemini",
+    "due": "",
+    "acceptance": "გაზიარება და „კითხე ჯესტერს“; დამატებითი პირადი მონაცემების გაჟონვის გარეშე.",
+    "notes": "",
+    "branch": "",
+    "evidence": "",
+    "updated": "2026-11-14",
+    "kind": "task",
+    "description": "გაზიარება და „კითხე ჯესტერს“; დამატებითი პირადი მონაცემების გაჟონვის გარეშე.",
+    "phase": 1,
+    "dependencies": [
+      "JST-001"
+    ],
+    "report": "",
+    "verification": "",
+    "links": "",
+    "comments": "",
+    "brief": "",
+    "needsVerification": true
+  },
+  {
+    "id": "JST-008",
+    "title": "ბრენდ ვოისის საცდელი 30 ტექსტი",
+    "area": "ბრენდი და კონტენტი",
+    "priority": "P0",
+    "status": "Backlog",
+    "owner": "Gemini",
+    "due": "2026-12-05",
+    "acceptance": "იუმორი + ინტელექტუალური სარკაზმი; დამამცირებელი დაცინების გარეშე.",
+    "notes": "",
+    "branch": "",
+    "evidence": "",
+    "updated": "2026-11-14",
+    "kind": "task",
+    "description": "იუმორი + ინტელექტუალური სარკაზმი; დამამცირებელი დაცინების გარეშე.",
+    "phase": 1,
+    "dependencies": [
+      "JST-001"
+    ],
+    "report": "",
+    "verification": "",
+    "links": "",
+    "comments": "",
+    "brief": "",
+    "needsVerification": true
+  },
+  {
+    "id": "JST-009",
+    "title": "18+ წვდომებისა და სოციალური მოქმედებების აუდიტი",
+    "area": "უსაფრთხოება და კონფიდენციალურობა",
+    "priority": "P0",
+    "status": "Backlog",
+    "owner": "Codex",
+    "due": "2026-12-12",
+    "acceptance": "Server-side enforcement, unknown age handling, profile/discovery/chat review.",
+    "notes": "",
+    "branch": "",
+    "evidence": "",
+    "updated": "2026-11-14",
+    "kind": "task",
+    "description": "Server-side enforcement, unknown age handling, profile/discovery/chat review.",
+    "phase": 1,
+    "dependencies": [
+      "JST-001"
+    ],
+    "report": "",
+    "verification": "",
+    "links": "",
+    "comments": "",
+    "brief": "",
+    "needsVerification": true
+  },
+  {
+    "id": "JST-010",
+    "title": "მოდერაცია, საჩივრები და ანგარიშის წაშლის გზა",
+    "area": "უსაფრთხოება და კონფიდენციალურობა",
+    "priority": "P0",
+    "status": "Backlog",
+    "owner": "Codex",
+    "due": "",
+    "acceptance": "მინიმალური მხარდაჭერისა და მომხმარებლის დაცვის პროცესი.",
+    "notes": "",
+    "branch": "",
+    "evidence": "",
+    "updated": "2026-11-14",
+    "kind": "task",
+    "description": "მინიმალური მხარდაჭერისა და მომხმარებლის დაცვის პროცესი.",
+    "phase": 1,
+    "dependencies": [
+      "JST-001"
+    ],
+    "report": "",
+    "verification": "",
+    "links": "",
+    "comments": "",
+    "brief": "",
+    "needsVerification": true
+  },
+  {
+    "id": "JST-011",
+    "title": "Production hosting, backup და rollback რეპეტიცია",
+    "area": "ინფრასტრუქტურა და deployment",
+    "priority": "P0",
+    "status": "Backlog",
+    "owner": "Codex",
+    "due": "2027-01-10",
+    "acceptance": "Public routes review, separate environments, restoration test, error monitoring.",
+    "notes": "",
+    "branch": "",
+    "evidence": "",
+    "updated": "2026-11-14",
+    "kind": "task",
+    "description": "Public routes review, separate environments, restoration test, error monitoring.",
+    "phase": 2,
+    "dependencies": [
+      "JST-001"
+    ],
+    "report": "",
+    "verification": "",
+    "links": "",
+    "comments": "",
+    "brief": "",
+    "needsVerification": true
+  },
+  {
+    "id": "JST-012",
+    "title": "GA4, Clarity და Search Console დაყენება",
+    "area": "ანალიტიკა და მარკეტინგი",
+    "priority": "P0",
+    "status": "Backlog",
+    "owner": "Gemini",
+    "due": "2027-01-10",
+    "acceptance": "Event funnel; mask sensitive forms; no private chat or birth data in analytics.",
+    "notes": "",
+    "branch": "",
+    "evidence": "",
+    "updated": "2026-11-14",
+    "kind": "task",
+    "description": "Event funnel; mask sensitive forms; no private chat or birth data in analytics.",
+    "phase": 1,
+    "dependencies": [
+      "JST-001"
+    ],
+    "report": "",
+    "verification": "",
+    "links": "",
+    "comments": "",
+    "brief": "",
+    "needsVerification": true
+  },
+  {
+    "id": "JST-013",
+    "title": "დახურული smoke QA და საჯარო გაშვების გადაწყვეტილება",
+    "area": "QA და ტესტირება",
+    "priority": "P0",
+    "status": "Backlog",
+    "owner": "Founder",
+    "due": "2027-01-24",
+    "acceptance": "Mobile browser, registration, personal insight, discovery, chat limits; acceptance evidence.",
+    "notes": "",
+    "branch": "",
+    "evidence": "",
+    "updated": "2026-11-14",
+    "kind": "task",
+    "description": "Mobile browser, registration, personal insight, discovery, chat limits; acceptance evidence.",
+    "phase": 3,
+    "dependencies": [
+      "JST-014",
+      "JST-015",
+      "JST-011"
+    ],
+    "report": "",
+    "verification": "",
+    "links": "",
+    "comments": "",
+    "brief": "",
+    "needsVerification": true
+  },
+  {
+    "id": "JST-014",
+    "kind": "task",
+    "title": "დახურული ინტეგრაციის ტესტირება",
+    "area": "QA და ტესტირება",
+    "phase": 2,
+    "due": "2027-01-10",
+    "dependencies": [
+      "JST-006"
+    ],
+    "priority": "P0",
+    "status": "Backlog",
+    "owner": "Gemini — Antigravity",
+    "description": "შემოთავაზებული გაშვების სამუშაო — Founder-მა უნდა შეათანხმოს მოცულობა.",
+    "acceptance": "მიმაგრებულია შემოწმების ანგარიში და მტკიცებულებები; Founder-ის დასტური.",
+    "needsVerification": true
+  },
+  {
+    "id": "JST-015",
+    "kind": "task",
+    "title": "მობილური ვებისა და API კონტრაქტების შემოწმება",
+    "area": "UI/UX და დიზაინსისტემა",
+    "phase": 2,
+    "due": "2027-01-10",
+    "dependencies": [
+      "JST-002"
+    ],
+    "priority": "P0",
+    "status": "Backlog",
+    "owner": "Gemini — Antigravity",
+    "description": "შემოთავაზებული გაშვების სამუშაო — Founder-მა უნდა შეათანხმოს მოცულობა.",
+    "acceptance": "მიმაგრებულია შემოწმების ანგარიში და მტკიცებულებები; Founder-ის დასტური.",
+    "needsVerification": true
+  },
+  {
+    "id": "JST-016",
+    "kind": "task",
+    "title": "მომხმარებლის მხარდაჭერის მზადყოფნა",
+    "area": "უსაფრთხოება და კონფიდენციალურობა",
+    "phase": 3,
+    "due": "2027-01-24",
+    "dependencies": [
+      "JST-010"
+    ],
+    "priority": "P0",
+    "status": "Backlog",
+    "owner": "Gemini — Antigravity",
+    "description": "შემოთავაზებული გაშვების სამუშაო — Founder-მა უნდა შეათანხმოს მოცულობა.",
+    "acceptance": "მიმაგრებულია შემოწმების ანგარიში და მტკიცებულებები; Founder-ის დასტური.",
+    "needsVerification": true
+  },
+  {
+    "id": "JST-017",
+    "kind": "task",
+    "title": "Go / No-go და საჯარო გაშვება",
+    "area": "პროდუქტი და ფუნქციები",
+    "phase": 4,
+    "due": "2027-01-25",
+    "dependencies": [
+      "JST-013",
+      "JST-016"
+    ],
+    "priority": "P0",
+    "status": "Backlog",
+    "owner": "Gemini — Antigravity",
+    "description": "შემოთავაზებული გაშვების სამუშაო — Founder-მა უნდა შეათანხმოს მოცულობა.",
+    "acceptance": "მიმაგრებულია შემოწმების ანგარიში და მტკიცებულებები; Founder-ის დასტური.",
+    "needsVerification": true
+  },
+  {
+    "id": "DEC-1",
+    "title": "პირველი გაშვება — საჯარო ვებსაიტი",
+    "detail": "2027 წლის იანვრის ბოლოს, ყველასთვის ღია რეგისტრაცია; მცირე წინასწარი smoke ტესტი.",
+    "kind": "decision",
+    "date": "2026-11-14",
+    "reason": "ატვირთულ პროტოტიპში დაფიქსირებული გადაწყვეტილება.",
+    "related": "",
+    "supersededBy": ""
+  },
+  {
+    "id": "DEC-2",
+    "title": "პირველი ღირებულება",
+    "detail": "საკუთარი თავის გაცნობა, შემდეგ ახალი ადამიანების აღმოჩენა.",
+    "kind": "decision",
+    "date": "2026-11-14",
+    "reason": "ატვირთულ პროტოტიპში დაფიქსირებული გადაწყვეტილება.",
+    "related": "",
+    "supersededBy": ""
+  },
+  {
+    "id": "DEC-3",
+    "title": "JesterAI — საწყისი ლიმიტი",
+    "detail": "3 ტექსტური კითხვა, ამოწურვის შემდეგ ერთხელ დამატებითი 5 საჩუქრად. საჩუქრის ტექსტი ბრენდ ვოისით.",
+    "kind": "decision",
+    "date": "2026-11-14",
+    "reason": "ატვირთულ პროტოტიპში დაფიქსირებული გადაწყვეტილება.",
+    "related": "",
+    "supersededBy": ""
+  },
+  {
+    "id": "DEC-4",
+    "title": "მონეტიზაცია",
+    "detail": "გაშვებისას თანხის მიღება არ იგეგმება; მომავალი პრემიუმ შესაძლებლობები შეიძლება აღინიშნოს „მალე“.",
+    "kind": "decision",
+    "date": "2026-11-14",
+    "reason": "ატვირთულ პროტოტიპში დაფიქსირებული გადაწყვეტილება.",
+    "related": "",
+    "supersededBy": ""
+  },
+  {
+    "id": "DEC-5",
+    "title": "ბრენდის ხმა",
+    "detail": "ინტელექტუალური სარკაზმი და იუმორი; დამამცირებელი დაცინება არ გამოიყენება.",
+    "kind": "decision",
+    "date": "2026-11-14",
+    "reason": "ატვირთულ პროტოტიპში დაფიქსირებული გადაწყვეტილება.",
+    "related": "",
+    "supersededBy": ""
+  },
+  {
+    "id": "DEC-6",
+    "title": "მობილური სტრატეგია",
+    "detail": "ჯერ მობილურზე გამართული ვები; Android/iOS-ის არქიტექტურული საფუძვლის შენარჩუნება.",
+    "kind": "decision",
+    "date": "2026-11-14",
+    "reason": "ატვირთულ პროტოტიპში დაფიქსირებული გადაწყვეტილება.",
+    "related": "",
+    "supersededBy": ""
+  },
+  {
+    "name": "სკოპი და დიზაინის მიმართულება",
+    "start": "14 ნოე",
+    "end": "30 ნოე",
+    "desc": "აუდიტი, UX, ბრენდ ვოისი, ინტეგრაციის კონტრაქტები",
+    "id": "PH-0",
+    "kind": "phase",
+    "acceptance": "შეთანხმებული სკოპი, აუდიტის ანგარიში და დამოკიდებულებები"
+  },
+  {
+    "name": "კრიტიკული შესაძლებლობების განხორციელება",
+    "start": "1 დეკ",
+    "end": "20 დეკ",
+    "desc": "ძირითადი ფუნქციები, JesterAI, ტექსტები, მობილური UX",
+    "id": "PH-1",
+    "kind": "phase",
+    "acceptance": "კრიტიკული ფუნქციები მზადაა ინტეგრაციისთვის"
+  },
+  {
+    "name": "ინტეგრაცია და წინასწარი ტესტირება",
+    "start": "21 დეკ",
+    "end": "10 იან",
+    "desc": "ერთიანი ფუნქციონალი, staging და შეზღუდული ტესტირება",
+    "id": "PH-2",
+    "kind": "phase",
+    "acceptance": "ერთიანი staging smoke ტესტი და ხარვეზების სია"
+  },
+  {
+    "name": "QA და გამოსწორებები",
+    "start": "11 იან",
+    "end": "24 იან",
+    "desc": "პროდუქტის, უსაფრთხოებისა და წარმადობის შემოწმება",
+    "id": "PH-3",
+    "kind": "phase",
+    "acceptance": "P0 ბლოკერები დახურულია და მიღებულია მტკიცებულებები"
+  },
+  {
+    "name": "საჯარო გაშვება",
+    "start": "25 იან",
+    "end": "31 იან",
+    "desc": "Go/no-go გადაწყვეტილება, ეტაპობრივი მარკეტინგული გააქტიურება",
+    "id": "PH-4",
+    "kind": "phase",
+    "acceptance": "Founder-ის Go გადაწყვეტილება, მონიტორინგი და rollback მზადაა"
+  },
+  {
+    "id": "GATE-0",
+    "kind": "gate",
+    "title": "ფუნქციური მზადყოფნა",
+    "related": [
+      "JST-001",
+      "JST-007"
+    ],
+    "notes": ""
+  },
+  {
+    "id": "GATE-1",
+    "kind": "gate",
+    "title": "უსაფრთხოება და კონფიდენციალურობა",
+    "related": [
+      "JST-009",
+      "JST-010"
+    ],
+    "notes": ""
+  },
+  {
+    "id": "GATE-2",
+    "kind": "gate",
+    "title": "JesterAI ინტეგრაცია",
+    "related": [
+      "JST-005",
+      "JST-006"
+    ],
+    "notes": ""
+  },
+  {
+    "id": "GATE-3",
+    "kind": "gate",
+    "title": "მობილური UX",
+    "related": [
+      "JST-015"
+    ],
+    "notes": ""
+  },
+  {
+    "id": "GATE-4",
+    "kind": "gate",
+    "title": "ტესტირება",
+    "related": [
+      "JST-013",
+      "JST-014"
+    ],
+    "notes": ""
+  },
+  {
+    "id": "GATE-5",
+    "kind": "gate",
+    "title": "ჰოსტინგი და deployment",
+    "related": [
+      "JST-011"
+    ],
+    "notes": ""
+  },
+  {
+    "id": "GATE-6",
+    "kind": "gate",
+    "title": "მონიტორინგი და აღდგენა",
+    "related": [
+      "JST-011"
+    ],
+    "notes": ""
+  },
+  {
+    "id": "GATE-7",
+    "kind": "gate",
+    "title": "ანალიტიკა",
+    "related": [
+      "JST-012"
+    ],
+    "notes": ""
+  },
+  {
+    "id": "GATE-8",
+    "kind": "gate",
+    "title": "მომხმარებლის მხარდაჭერა",
+    "related": [
+      "JST-016"
+    ],
+    "notes": ""
+  },
+  {
+    "id": "DOC-0",
+    "kind": "document",
+    "title": "Launch Planning Baseline",
+    "url": "",
+    "notes": "წყაროს ბმული დასამატებელია."
+  },
+  {
+    "id": "DOC-1",
+    "kind": "document",
+    "title": "JesterAI / PROJECT_OVERVIEW",
+    "url": "",
+    "notes": "წყაროს ბმული დასამატებელია."
+  },
+  {
+    "id": "DOC-2",
+    "kind": "document",
+    "title": "Jester — Product Foundation",
+    "url": "",
+    "notes": "წყაროს ბმული დასამატებელია."
+  }
+]

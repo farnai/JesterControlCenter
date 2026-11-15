@@ -1,0 +1,1306 @@
+{
+  "version": "2026-11-15",
+  "evidence": "კოდის ინვენტარი; მიმდინარე პროდუქტის სრული runtime შემოწმება არ ჩატარებულა.",
+  "groups": [
+    "შესვლა",
+    "ონბორდინგი",
+    "Home",
+    "აღმოჩენა",
+    "პროფილები",
+    "ურთიერთობები",
+    "მიმოწერა",
+    "სხვა გვერდები",
+    "JesterAI",
+    "გაშვების საერთო შემოწმება"
+  ],
+  "nodes": [
+    {
+      "id": "ENTRY",
+      "group": "შესვლა",
+      "title": "პირველი ვიზიტი და საჯარო შესასვლელი",
+      "route": "/ → /auth/register",
+      "kind": "route",
+      "current": "ავტორიზაციის გარეშე მთავარი გვერდი რეგისტრაციაზე გადადის; /welcome, /auth/choice, /get-started იგივე გზაა.",
+      "target": "საწყის ეკრანზე გასაგებად გამოჩნდეს თვითშეცნობის ღირებულება და რეგისტრაციის მოქმედება; ცალკე landing-ის ფორმა დასამტკიცებელია.",
+      "checks": [
+        "სუფთა ბრაუზერი /-ზე ხსნის რეგისტრაციას",
+        "შესული მომხმარებელი ხედავს Home-ს ან დაუმთავრებელ onboarding-ს",
+        "კამპანიის ატრიბუცია არ იკარგება გადამისამართებაზე",
+        "ქართული სათაური და გაზიარების metadata შემოწმებულია"
+      ],
+      "sources": [
+        "frontend/src/navigation/ProtectedRoute.tsx",
+        "frontend/src/navigation/AppRoutes.tsx",
+        "frontend/index.html"
+      ],
+      "next": [
+        "REGISTER",
+        "LOGIN"
+      ],
+      "gap": "ცალკე მარკეტინგული landing არ არის; მიმდინარე HTML სათაური და ენა გადასახედია.",
+      "parent": "JST-001"
+    },
+    {
+      "id": "REGISTER",
+      "group": "შესვლა",
+      "title": "ანგარიშის შექმნა",
+      "route": "/auth/register",
+      "kind": "route",
+      "current": "ელფოსტა, პაროლი, პაროლის გამეორება, სიძლიერის მინიშნება; რეგისტრაცია Supabase-ით.",
+      "target": "მკაფიო შეცდომები, წარმატების სწორი გზა და ოპერაციული პირობების/კონფიდენციალურობის შეთანხმებული წარდგენა.",
+      "checks": [
+        "არასწორი ელფოსტა და 6 სიმბოლოზე მოკლე პაროლი არ იგზავნება",
+        "პაროლების აცდენა გასაგებად ჩანს",
+        "არსებული ანგარიში მომხმარებელს სწორ გზას სთავაზობს",
+        "ქსელის შეცდომაზე ფორმა აღდგენადია",
+        "double-submit არ ქმნის გაურკვეველ მდგომარეობას"
+      ],
+      "sources": [
+        "frontend/src/modules/auth/RegisterPage.tsx",
+        "frontend/src/core/auth/context.tsx"
+      ],
+      "next": [
+        "VERIFY",
+        "IDENTITY"
+      ],
+      "data": "Supabase Auth signUp; მომხმარებლის პროფილის ინიციალიზაცია.",
+      "parent": "JST-002"
+    },
+    {
+      "id": "OAUTH",
+      "group": "შესვლა",
+      "title": "Google / Apple-ით გაგრძელება",
+      "route": "/auth/register · /auth/login",
+      "kind": "component",
+      "current": "SocialAuthButtons იძახებს Supabase OAuth-ს და /auth/callback-ს.",
+      "target": "production provider-ების გამართული კონფიგურაცია; ღილაკების არსებობა მუშა OAuth-ს არ ადასტურებს.",
+      "checks": [
+        "ორივე provider ცალ-ცალკე შემოწმებულია",
+        "გაუქმება და შეცდომა გასაგებია",
+        "redirect URL სწორია",
+        "უკვე არსებულ ელფოსტასთან ქცევა შემოწმებულია"
+      ],
+      "sources": [
+        "frontend/src/modules/auth/SocialAuthButtons.tsx",
+        "frontend/src/modules/auth/AuthCallbackPage.tsx"
+      ],
+      "next": [
+        "CALLBACK"
+      ],
+      "gap": "Google/Apple-ის გარე ანგარიშების კონფიგურაცია ამ ანალიზში არ შემოწმებულა.",
+      "parent": "JST-011"
+    },
+    {
+      "id": "VERIFY",
+      "group": "შესვლა",
+      "title": "ელფოსტის დადასტურება",
+      "route": "/auth/verify-email",
+      "kind": "route",
+      "current": "დადასტურების მოთხოვნის შემდეგ იხსნება წერილის გვერდი.",
+      "target": "წერილის რეალური მიღება და ხელახლა გაგზავნა; დაკარგული ელფოსტის კონტექსტის აღდგენა.",
+      "checks": [
+        "ახალი წერილი მოდის production SMTP-დან",
+        "resend-ის ლიმიტი და შეტყობინება გასაგებია",
+        "გვერდის refresh არ ტოვებს ჩიხში",
+        "ვადაგასული/უკვე გამოყენებული ბმული აღდგენადია"
+      ],
+      "sources": [
+        "frontend/src/modules/auth/VerifyEmailPage.tsx",
+        "frontend/src/modules/auth/RegisterPage.tsx"
+      ],
+      "next": [
+        "CALLBACK",
+        "LOGIN"
+      ],
+      "parent": "JST-011"
+    },
+    {
+      "id": "CALLBACK",
+      "group": "შესვლა",
+      "title": "დადასტურებისა და OAuth-ის დაბრუნება",
+      "route": "/auth/callback",
+      "kind": "route",
+      "current": "სესიის დამუშავების შემდეგ Home ან onboarding; შეცდომისა და timeout-ის ეკრანი.",
+      "target": "ყველა შესვლის მეთოდი მთავრდება ერთი გამართული სესიით.",
+      "checks": [
+        "დადასტურებულ ახალ მომხმარებელს ხვდება onboarding",
+        "დასრულებული მომხმარებელი მიდის Home-ზე",
+        "არასწორი ბმული გვთავაზობს resend/login-ს",
+        "15-წამიანი timeout და ნელი ქსელი შემოწმებულია"
+      ],
+      "sources": [
+        "frontend/src/modules/auth/AuthCallbackPage.tsx",
+        "frontend/src/core/auth/context.tsx"
+      ],
+      "next": [
+        "IDENTITY",
+        "HOME"
+      ]
+    },
+    {
+      "id": "LOGIN",
+      "group": "შესვლა",
+      "title": "შესვლა და დაბრუნება",
+      "route": "/auth/login",
+      "kind": "route",
+      "current": "ელფოსტით შესვლა, OAuth, დამახსოვრებული მიმართულების მხარდაჭერა.",
+      "target": "დაბრუნებული მომხმარებლის სწრაფი შესვლა; დაუმთავრებელი onboarding-ის გაგრძელება.",
+      "checks": [
+        "არასწორი პაროლი და ქსელის შეცდომა",
+        "შესვლა ახალი და დასრულებული პროფილით",
+        "დაცული deep link-ის აღდგენა",
+        "მომხმარებლის შეცვლისას წინა მონაცემები ქრება"
+      ],
+      "sources": [
+        "frontend/src/modules/auth/LoginPage.tsx",
+        "frontend/src/navigation/ProtectedRoute.tsx",
+        "frontend/src/core/auth/context.tsx"
+      ],
+      "next": [
+        "HOME",
+        "IDENTITY",
+        "RESET"
+      ]
+    },
+    {
+      "id": "RESET",
+      "group": "შესვლა",
+      "title": "პაროლის აღდგენა",
+      "route": "/auth/reset-password",
+      "kind": "route",
+      "current": "აღდგენის წერილის მოთხოვნა და ახალი პაროლის ფორმა; /reset-password alias.",
+      "target": "წერილის ბმული სწორი დომენით და უსაფრთხო სესიის განახლება.",
+      "checks": [
+        "აღდგენის წერილი მიდის",
+        "ვადაგასული ბმული",
+        "პაროლის გამეორების შემოწმება",
+        "განახლების შემდეგ შესვლა ახალი პაროლით"
+      ],
+      "sources": [
+        "frontend/src/modules/auth/ResetPasswordPage.tsx"
+      ],
+      "next": [
+        "LOGIN"
+      ]
+    },
+    {
+      "id": "IDENTITY",
+      "group": "ონბორდინგი",
+      "title": "1 · სახელი და გვარი",
+      "route": "/onboarding/birth-data · 1/8",
+      "kind": "step",
+      "current": "სახელი/გვარი ინახება პროფილში; display_name სერვერიდან ბრუნდება. პირველი უკან ღილაკი signOut-ს აკეთებს.",
+      "target": "აუცილებელი ველები, გასაგები კონფიდენციალურობა და პროგრესის შენახვა.",
+      "checks": [
+        "ცარიელი/გამოტოვებებით შევსებული სახელები",
+        "ქართული გრძელი სახელი მობილურზე",
+        "წარმატებული შენახვის შემდეგ ნაბიჯი 2",
+        "უკან დაბრუნება და გამოსვლის შეცდომა",
+        "refresh-ის შემდეგ სწორი აღდგენა"
+      ],
+      "sources": [
+        "frontend/src/modules/onboarding/BirthDataOnboardingPage.tsx",
+        "frontend/src/modules/onboarding/steps/BasicProfileStep.tsx",
+        "backend/app/profiles/router.py"
+      ],
+      "next": [
+        "BIRTHDATE"
+      ],
+      "privacy": "სახელი სოციალური პროფილის ნაწილია; სხვა birth-data არ გამოვიტანოთ.",
+      "parent": "JST-002"
+    },
+    {
+      "id": "BIRTHDATE",
+      "group": "ონბორდინგი",
+      "title": "2 · დაბადების თარიღი და 18+",
+      "route": "/onboarding/birth-data · 2/8",
+      "kind": "step",
+      "current": "თარიღის არჩევა და birth-data API-ში შენახვა; backend უარყოფს არასრულწლოვანს.",
+      "target": "თარიღის ვალიდაცია და ზრდასრულობის ერთიანი დაცვა ყველა საჭირო გზაზე.",
+      "checks": [
+        "ზუსტად მე-18 დაბადების დღე",
+        "29 თებერვალი და მომავალი თარიღი",
+        "დაუმთავრებელი თარიღი",
+        "backend უარყოფს bypass-ს",
+        "refresh და უკან დაბრუნება"
+      ],
+      "sources": [
+        "frontend/src/modules/onboarding/steps/BirthDateStep.tsx",
+        "frontend/src/shared/ui/birthDateUtils.ts",
+        "backend/app/astrology/validation.py"
+      ],
+      "next": [
+        "BIRTHTIME"
+      ],
+      "privacy": "თარიღი პირადია: არ გადაეცეს ანალიტიკას, სხვა მომხმარებელს ან გაზიარებულ ბარათს.",
+      "parent": "JST-009"
+    },
+    {
+      "id": "BIRTHTIME",
+      "group": "ონბორდინგი",
+      "title": "3 · დაბადების დრო",
+      "route": "/onboarding/birth-data · 3/8",
+      "kind": "step",
+      "current": "ზუსტი, მიახლოებითი ან უცნობი დრო; unknown გზაზე null იგზავნება.",
+      "target": "უცნობი დრო დასაშვებია, გამოგონილი დრო/Ascendant/Houses დაუშვებელია.",
+      "checks": [
+        "სამივე რეჟიმით შენახვა",
+        "unknown რეალურად null-ია",
+        "უცნობიდან ზუსტზე და უკან გადასვლა",
+        "დეფოლტური 12:00 არ ჩაითვალოს მომხმარებლის ცნობილ დროდ"
+      ],
+      "sources": [
+        "frontend/src/modules/onboarding/steps/BirthTimeStep.tsx",
+        "frontend/src/modules/onboarding/BirthDataOnboardingPage.tsx",
+        "backend/app/astrology/validation.py"
+      ],
+      "next": [
+        "BIRTHPLACE"
+      ],
+      "gap": "wizard-ის საწყისი state არის exact / 12:00; გადამოწმდეს დაუდასტურებელი default-ის გაგზავნის რისკი.",
+      "privacy": "დრო პირადია."
+    },
+    {
+      "id": "BIRTHPLACE",
+      "group": "ონბორდინგი",
+      "title": "4 · დაბადების ადგილი",
+      "route": "/onboarding/birth-data · 4/8",
+      "kind": "step",
+      "current": "ქალაქის კატალოგი, birth_city_id, კოორდინატები და timezone.",
+      "target": "კანონიკური ქალაქი და IANA timezone; ეს არ არის საჯარო საცხოვრებელი ქალაქი.",
+      "checks": [
+        "ქართული/ლათინური ძიება",
+        "ქალაქის გარეშე წინ არ გადადის",
+        "მდებარეობის შეცვლისას timezone ახლდება",
+        "უცნობი ქალაქი და ქსელის შეცდომა",
+        "პოლარული შემთხვევა არ ცვლის ჩუმად სახლთა სისტემას"
+      ],
+      "sources": [
+        "frontend/src/modules/onboarding/steps/BirthPlaceStep.tsx",
+        "backend/app/geo/service.py",
+        "backend/app/astrology/router.py"
+      ],
+      "next": [
+        "CITY"
+      ],
+      "privacy": "კოორდინატები და დაბადების ადგილი მხოლოდ მფლობელის მონაცემებია."
+    },
+    {
+      "id": "CITY",
+      "group": "ონბორდინგი",
+      "title": "5 · საცხოვრებელი ქალაქი",
+      "route": "/onboarding/birth-data · 5/8",
+      "kind": "step",
+      "current": "current_city_id და პროფილის ქალაქი ინახება; არჩევანი აუცილებელია.",
+      "target": "დაბადების ადგილისგან გამიჯნული საჯარო სოციალური ინფორმაცია.",
+      "checks": [
+        "ქალაქის არჩევა/შეცვლა",
+        "თვითნებური ტექსტი ვერ ცვლის canonical ID-ს",
+        "წარუმატებელი შენახვა არ გადადის შემდეგზე",
+        "refresh აღადგენს ქალაქს"
+      ],
+      "sources": [
+        "frontend/src/modules/onboarding/steps/WhereYouLiveStep.tsx",
+        "backend/app/profiles/router.py"
+      ],
+      "next": [
+        "INTERESTS"
+      ]
+    },
+    {
+      "id": "INTERESTS",
+      "group": "ონბორდინგი",
+      "title": "6.1 · ინტერესები",
+      "route": "/onboarding/birth-data · 6/8 → 1/3",
+      "kind": "substep",
+      "current": "მე-6 ნაბიჯის პირველი ქვესაფეხური: კატეგორიები, ძიება, ინტერესების შენახვა; optional მოდულის გამოტოვება.",
+      "target": "ინტერესების არჩევა გასაგებია, კატალოგი და სერვერის ლიმიტები თანხმდება.",
+      "checks": [
+        "ქართული/ინგლისური/alias ძიება",
+        "მინიმუმ/მაქსიმუმის UI და API თანხვედრა",
+        "უკვე არჩეულის აღდგენა",
+        "გამოტოვება გადადის ფოტოზე",
+        "ჩატვირთვის ჩავარდნა არ წაშლის ძველ არჩევანს"
+      ],
+      "sources": [
+        "frontend/src/modules/onboarding/steps/ProfileEnrichmentModule.tsx",
+        "frontend/src/modules/onboarding/steps/InterestsStep.tsx",
+        "backend/app/interests/router.py"
+      ],
+      "next": [
+        "TRAITS",
+        "PHOTO"
+      ],
+      "gap": "წინასწარი ჩატვირთვის შეცდომები ცარიელ სიებად გარდაიქმნება; მონაცემების გადაფარვის რისკი შესამოწმებელია."
+    },
+    {
+      "id": "TRAITS",
+      "group": "ონბორდინგი",
+      "title": "6.2 · ხასიათის აღწერა",
+      "route": "/onboarding/birth-data · 6/8 → 2/3",
+      "kind": "substep",
+      "current": "მომხმარებელი თავად ირჩევს ხასიათის descriptors-ს; ინახება enrichment API-ით.",
+      "target": "ეს თვითაღწერაა და არა AI დიაგნოზი; optional ნაბიჯი.",
+      "checks": [
+        "არჩევა და შენახვა",
+        "უკან დაბრუნება ინტერესებზე",
+        "გამოტოვება",
+        "შენახვის შეცდომის retry",
+        "ხილვადობის სწორი კონტრაქტი"
+      ],
+      "sources": [
+        "frontend/src/modules/onboarding/steps/PersonalityStep.tsx",
+        "frontend/src/modules/onboarding/steps/ProfileEnrichmentModule.tsx",
+        "backend/app/enrichment/router.py"
+      ],
+      "next": [
+        "INTENTIONS",
+        "PHOTO"
+      ]
+    },
+    {
+      "id": "INTENTIONS",
+      "group": "ონბორდინგი",
+      "title": "6.3 · რას ვეძებ",
+      "route": "/onboarding/birth-data · 6/8 → 3/3",
+      "kind": "substep",
+      "current": "კავშირის მიზნების არჩევა და შენახვა.",
+      "target": "მიზნები შეესაბამება მრავალმხრივ სოციალურ პროდუქტს; romantic ვარაუდი ავტომატურად არ კეთდება.",
+      "checks": [
+        "კატალოგის ჩატვირთვა",
+        "შენახვა და უკან დაბრუნება",
+        "optional skip",
+        "არჩევანის განახლება პროფილში",
+        "ახალი მიზანი არ ცვლის სინასტრიის მათემატიკას"
+      ],
+      "sources": [
+        "frontend/src/modules/onboarding/steps/IntentionsStep.tsx",
+        "backend/app/enrichment/router.py"
+      ],
+      "next": [
+        "PHOTO"
+      ]
+    },
+    {
+      "id": "PHOTO",
+      "group": "ონბორდინგი",
+      "title": "7 · პროფილის ფოტო",
+      "route": "/onboarding/birth-data · 7/8",
+      "kind": "step",
+      "current": "ფოტოს ატვირთვა ან გამოტოვება, შემდეგ ნაბიჯი 8.",
+      "target": "სწორი ფორმატი/ზომა, პირადი მედია და უსაფრთხო fallback.",
+      "checks": [
+        "დასაშვები ფორმატი და ზედმეტი ზომა",
+        "ატვირთვის წყვეტა და retry",
+        "EXIF/GPS არ ინახება გამოსავალში",
+        "ფოტოს გარეშე გაგრძელება",
+        "დაბლოკილმა ვერ უნდა ნახოს პირადი მედია"
+      ],
+      "sources": [
+        "frontend/src/modules/onboarding/steps/ProfilePhotoStep.tsx",
+        "backend/app/profiles/photos.py"
+      ],
+      "next": [
+        "FINISH"
+      ],
+      "privacy": "რეალური პირადი ფოტოები QA მონაცემებად არ გამოიყენოთ."
+    },
+    {
+      "id": "FINISH",
+      "group": "ონბორდინგი",
+      "title": "8 · გადამოწმება და დასრულება",
+      "route": "/onboarding/birth-data · 8/8",
+      "kind": "step",
+      "current": "შეჯამება, ნაბიჯზე დაბრუნება და completeOnboarding API; დასრულებული პროფილის შემდეგ Home.",
+      "target": "დასრულება სერვერის მიერ დადასტურებული მდგომარეობაა.",
+      "checks": [
+        "სავალდებულო მონაცემის გამოტოვება უარყოფილია",
+        "გამოტოვებული ველიდან სწორ ნაბიჯზე დაბრუნება",
+        "unknown time-ით დასრულება",
+        "განმეორებითი submit",
+        "query cache ახლდება და Home იხსნება"
+      ],
+      "sources": [
+        "frontend/src/modules/onboarding/steps/FinishStep.tsx",
+        "frontend/src/modules/onboarding/BirthDataOnboardingPage.tsx",
+        "backend/app/profiles/router.py"
+      ],
+      "next": [
+        "HOME"
+      ],
+      "gap": "Finish-ის interestsCount და enrichment-ის ახალი არჩევანის სინქრონიზაცია ცალკე შეამოწმეთ."
+    },
+    {
+      "id": "RESUME",
+      "group": "ონბორდინგი",
+      "title": "შეწყვეტილი რეგისტრაციის გაგრძელება",
+      "route": "/onboarding → /onboarding/birth-data",
+      "kind": "state",
+      "current": "შენახული პროფილი/birth-data/ინტერესები იტვირთება; დაკარგული აუცილებელი მონაცემი ადრინდელ ნაბიჯზე აბრუნებს.",
+      "target": "არც ჩიხი და არც დაკარგული ინფორმაცია refresh/logout/login-ის შემდეგ.",
+      "checks": [
+        "გაჩერება თითოეულ 8 ნაბიჯზე და დაბრუნება",
+        "მე-6 ეტაპის სამივე ქვესაფეხურის აღდგენის ქცევა",
+        "ნელი ქსელი და retry",
+        "დასრულებული მომხმარებელი onboarding-ზე აღარ რჩება"
+      ],
+      "sources": [
+        "frontend/src/modules/onboarding/BirthDataOnboardingPage.tsx",
+        "frontend/src/modules/onboarding/steps/ProfileEnrichmentModule.tsx",
+        "frontend/src/navigation/ProtectedRoute.tsx"
+      ],
+      "next": [
+        "IDENTITY",
+        "INTERESTS",
+        "HOME"
+      ]
+    },
+    {
+      "id": "HOME",
+      "group": "Home",
+      "title": "Home · ძირითადი იერარქია",
+      "route": "/",
+      "kind": "route",
+      "current": "ოთხი მთავარი ბლოკი: დღის ენერგია, Do/Don't, პირადი შრეები, ახალი ადამიანები.",
+      "target": "თვითშეცნობა წინ; სხვა ადამიანებისკენ გასაგები შემდეგი ნაბიჯი; დიზაინი დამტკიცდეს რეალურ მდგომარეობებზე.",
+      "checks": [
+        "ახალი და დაბრუნებული მომხმარებელი",
+        "თითოეული ბლოკის დამოუკიდებელი შეცდომა",
+        "მონაცემების გარეშე მდგომარეობა",
+        "მობილურის ზომები და ქართული ტექსტი"
+      ],
+      "sources": [
+        "frontend/src/modules/home/HomePage.tsx"
+      ],
+      "next": [
+        "DAILY",
+        "GUIDANCE",
+        "INSIGHTS",
+        "NEWPEOPLE"
+      ],
+      "parent": "JST-003"
+    },
+    {
+      "id": "DAILY",
+      "group": "Home",
+      "title": "დღის ენერგიის ბარათი",
+      "route": "/ · დღის ტაბი",
+      "kind": "component",
+      "current": "თარიღი, archetype, ინტერპრეტაცია/განმარტება; ტექსტის clipboard კოპირება არსებობს.",
+      "target": "დამტკიცებული ბრენდული ტექსტი, ბარათის გაზიარება და საკუთარ თავზე Jester-ისთვის კითხვის CTA.",
+      "checks": [
+        "დღის შეცვლა timezone-ით",
+        "real_transit და fallback გასაგებად განსხვავდება",
+        "კოპირების უფლების უარყოფა",
+        "გაზიარებაში მხოლოდ ნებადართული ტექსტი",
+        "AI CTA არ გამოგონებს მონაცემებს"
+      ],
+      "sources": [
+        "frontend/src/modules/home/HomeDailyEnergy.tsx",
+        "backend/app/interpretation/router.py"
+      ],
+      "next": [
+        "SHARE",
+        "AI",
+        "WEEKLY"
+      ],
+      "gap": "clipboard კოპირება არ უდრის დასრულებულ share flow-ს; AI CTA ჯერ ინტეგრირებული არაა.",
+      "parent": "JST-007"
+    },
+    {
+      "id": "WEEKLY",
+      "group": "Home",
+      "title": "კვირის ენერგია",
+      "route": "/ · კვირის ტაბი",
+      "kind": "component",
+      "current": "ცალკე weekly query, preview/unlocked მდგომარეობები და Stars-ით გახსნა.",
+      "target": "გაშვებისას ხილვადობის/ჩაკეტვის პოლიტიკა Founder-თან შესათანხმებელია; გადახდის დაპირება არ გავაკეთოთ.",
+      "checks": [
+        "სწორი კვირის საზღვარი",
+        "ჩაკეტილი preview და გახსნილი კონტენტი",
+        "არასაკმარისი Stars",
+        "ორმაგი click არ ჩამოჭრის ორჯერ",
+        "წინა კვირის entitlement ქცევა"
+      ],
+      "sources": [
+        "frontend/src/modules/home/HomeDailyEnergy.tsx",
+        "backend/app/interpretation/weekly_energy.py",
+        "backend/app/wallet/service.py"
+      ],
+      "next": [
+        "WALLET"
+      ],
+      "gap": "არსებული Stars განბლოკვა და ახალი launch მონეტიზაციის გადაწყვეტილება შესათანხმებელია."
+    },
+    {
+      "id": "GUIDANCE",
+      "group": "Home",
+      "title": "გააკეთე / მოერიდე",
+      "route": "/ · Do / Don't",
+      "kind": "component",
+      "current": "დღის API-ის do/dont მიკროტეგები.",
+      "target": "კონკრეტული მოკლე ხმა და გამართული empty/error მდგომარეობები.",
+      "checks": [
+        "მოსალოდნელი რაოდენობა",
+        "დაკლებული მონაცემი",
+        "გრძელი ქართული ტექსტი",
+        "დღის ბარათთან თანხვედრა"
+      ],
+      "sources": [
+        "frontend/src/modules/home/HomeDoDont.tsx",
+        "backend/app/interpretation/data/daily_energy_tags.json"
+      ],
+      "next": [
+        "INSIGHTS"
+      ]
+    },
+    {
+      "id": "INSIGHTS",
+      "group": "Home",
+      "title": "გაიცანი საკუთარი თავი · პირადი შრეები",
+      "route": "/ · პირადი კატალოგი",
+      "kind": "component",
+      "current": "შვიდშრიანი კატალოგის UI, გახსნილი/ჩაკეტილი შრეები, unlock და ShareCardModal.",
+      "target": "არსებული სემანტიკა შენარჩუნდეს; ტექსტები ხელახლა შეფასდეს; launch ხელმისაწვდომობა შეთანხმდეს.",
+      "checks": [
+        "შრის გახსნა/დახურვა",
+        "unknown birth time-ით სწორი შიგთავსი",
+        "unlock შეცდომა",
+        "განახლებული საფულე",
+        "სწორი ბარათის გაზიარება"
+      ],
+      "sources": [
+        "frontend/src/modules/home/HomePersonalInsights.tsx",
+        "backend/app/interpretation/personal_catalog.py"
+      ],
+      "next": [
+        "SHARE",
+        "ME",
+        "WALLET"
+      ],
+      "parent": "JST-008"
+    },
+    {
+      "id": "NEWPEOPLE",
+      "group": "Home",
+      "title": "ახალი ადამიანები",
+      "route": "/ · ახალი ადამიანები",
+      "kind": "component",
+      "current": "Home ითხოვს newest რიგით 6 ადამიანს.",
+      "target": "Home-დან Discovery-სა და პროფილზე ბუნებრივი გადასვლა; შემთხვევითი score არ გამოჩნდეს.",
+      "checks": [
+        "ცარიელი სია",
+        "ბლოკისა და ხილვადობის გაფილტვრა",
+        "სურათის fallback",
+        "პროფილზე გადასვლა",
+        "კანდიდატების თანმიმდევრობა"
+      ],
+      "sources": [
+        "frontend/src/modules/home/HomeNewPeople.tsx",
+        "backend/app/discovery/router.py"
+      ],
+      "next": [
+        "DISCOVER",
+        "PERSON"
+      ]
+    },
+    {
+      "id": "SHARE",
+      "group": "Home",
+      "title": "გაზიარების ბარათი და მეგობრის მოწვევა",
+      "route": "Home overlay / share action",
+      "kind": "overlay",
+      "current": "პირადი insights-ის ShareCardModal და clipboard ნაკადები არსებობს.",
+      "target": "Founder-ის მოთხოვნილი დღის ბარათის გაზიარების გამოცდილება; მიმღებს ჰქონდეს რეალური რეგისტრაციის შესასვლელი.",
+      "checks": [
+        "ქართული შრიფტი ექსპორტზე",
+        "სურათის/ტექსტის სწორი preview",
+        "share cancel არ ითვლება წარმატებად",
+        "URL არ შეიცავს პირად birth-data-ს",
+        "მიმღები ხედავს მხოლოდ განზრახ გაზიარებულ შიგთავსს"
+      ],
+      "sources": [
+        "frontend/src/modules/home/ShareCardModal.tsx",
+        "frontend/src/platform/share.ts"
+      ],
+      "next": [
+        "ENTRY"
+      ],
+      "privacy": "ნებაყოფლობითი გაზიარება არ ნიშნავს მთლიან პროფილზე ან ჩატზე საჯარო წვდომას.",
+      "parent": "JST-007"
+    },
+    {
+      "id": "DISCOVER",
+      "group": "აღმოჩენა",
+      "title": "Discover · ფილტრები და სია",
+      "route": "/discover",
+      "kind": "route",
+      "current": "სახელის ძიება, ქალაქი, საერთო ინტერესები, swipe/list ხედები და pagination.",
+      "target": "დამტკიცებული bounded discovery; ranking-ის ახალი პოლიტიკა არ მოვიგონოთ.",
+      "checks": [
+        "ფილტრების გასუფთავება",
+        "ცარიელი და ბოლო გვერდი",
+        "შემდეგი გვერდის retry",
+        "პროფილიდან დაბრუნება ინარჩუნებს კონტექსტს",
+        "არ ჩანს self/blocked/hidden/underage"
+      ],
+      "sources": [
+        "frontend/src/modules/discover/DiscoverPage.tsx",
+        "backend/app/discovery/router.py"
+      ],
+      "next": [
+        "DECK",
+        "PERSON"
+      ],
+      "gap": "newest pagination-ის cursor/order თანხვედრა რეგრესიის კანდიდატია; Home ამჟამად პირველ გვერდს ითხოვს.",
+      "parent": "JST-002"
+    },
+    {
+      "id": "DECK",
+      "group": "აღმოჩენა",
+      "title": "ადამიანის ბარათი და დაკავშირების დადასტურება",
+      "route": "/discover · card",
+      "kind": "component",
+      "current": "მარცხნივ Next; მარჯვნივ კავშირის დადასტურება; ფოტოს ცვლა ცალკეა.",
+      "target": "შეცდომით swipe არ აგზავნის კავშირს; მომხმარებელს აქვს ღილაკები და კლავიატურა.",
+      "checks": [
+        "scroll და drag არ ერევა",
+        "ფოტოს tap არ ცვლის კანდიდატს",
+        "cancel არაფერს აგზავნის",
+        "explicit send ქმნის ერთ მოთხოვნას",
+        "pending/accepted მდგომარეობები",
+        "reduced motion და keyboard"
+      ],
+      "sources": [
+        "frontend/src/modules/discover/DiscoverSwipeCard.tsx",
+        "frontend/src/modules/people/ConnectionActions.tsx"
+      ],
+      "next": [
+        "PERSON",
+        "CONNECTIONS"
+      ]
+    },
+    {
+      "id": "PERSON",
+      "group": "პროფილები",
+      "title": "სხვა ადამიანის პროფილი",
+      "route": "/people/:id",
+      "kind": "route",
+      "current": "პროფილი, ფოტოები, ინტერესები, safe astrology და კავშირის მდგომარეობა.",
+      "target": "ადამიანი და სოციალური ინფორმაცია პირველად; ნებადართული ინტერპრეტაცია შემდეგ.",
+      "checks": [
+        "არასწორი UUID",
+        "self პროფილი",
+        "blocked/hidden privacy-safe პასუხი",
+        "ფოტო/ინტერესების ცალკე ჩავარდნა",
+        "Discovery-ზე დაბრუნება",
+        "ნედლი დაბადების ინფორმაცია არ ჩანს"
+      ],
+      "sources": [
+        "frontend/src/modules/people/PersonProfilePage.tsx",
+        "backend/app/profiles/router.py",
+        "backend/app/profiles/photos.py"
+      ],
+      "next": [
+        "CONNECTIONS",
+        "WHY",
+        "COMPARE"
+      ],
+      "privacy": "საჯარო ასაკი არ ნიშნავს დაბადების თარიღის/დროის/ადგილის გამჟღავნებას."
+    },
+    {
+      "id": "ME",
+      "group": "პროფილები",
+      "title": "ჩემი პროფილი და თვითშეცნობა",
+      "route": "/me",
+      "kind": "route",
+      "current": "safe astro, natal ინტერპრეტაციები, პროფილის რედაქტირება, recalculation და სოციალური იდენტობა.",
+      "target": "სახელის/ბიოს/ქალაქის შეცვლა, პირადი ინფორმაციის მკაფიო გამიჯვნა და გამართული თვითშეცნობა.",
+      "checks": [
+        "თავდაპირველი ჩატვირთვა",
+        "რედაქტირება და გაუქმება",
+        "განახლებული cache",
+        "recalculation-ის შეცდომა",
+        "unknown time მდგომარეობა",
+        "გრძელი ტექსტები"
+      ],
+      "sources": [
+        "frontend/src/modules/me/MePage.tsx",
+        "backend/app/profiles/router.py",
+        "backend/app/astrology/router.py"
+      ],
+      "next": [
+        "GALLERY",
+        "VISIBILITY",
+        "HOME"
+      ]
+    },
+    {
+      "id": "GALLERY",
+      "group": "პროფილები",
+      "title": "ფოტოგალერეა და სოციალური იდენტობის რედაქტირება",
+      "route": "/me · სოციალური პროფილი",
+      "kind": "component",
+      "current": "ფოტოები/ინტერესების მართვის კომპონენტები და backend gallery lifecycle.",
+      "target": "ატვირთვა/მთავარი ფოტო/თანმიმდევრობა სწორად ჩანდეს ყველა ზედაპირზე.",
+      "checks": [
+        "ფოტოს reorder და primary",
+        "6 ფოტოს ლიმიტი",
+        "დიდი/არასწორი ფაილი",
+        "ქსელის წყვეტა",
+        "owner-only ცვლილებები",
+        "სურათის წაშლის სცენარი მხოლოდ ცალკე ნებადართულ test გარემოში"
+      ],
+      "sources": [
+        "frontend/src/modules/people/SocialIdentity.tsx",
+        "backend/app/profiles/photos.py",
+        "docs/SOCIAL_PROFILE_MEDIA.md"
+      ],
+      "next": [
+        "ME",
+        "PERSON"
+      ]
+    },
+    {
+      "id": "VISIBILITY",
+      "group": "პროფილები",
+      "title": "ხილვადობა და პირადი საზღვრები",
+      "route": "/me · ხილვადობა",
+      "kind": "component",
+      "current": "პროფილის discoverable კონტროლი; enrichment-ის ხილვადობის მოდელი არსებობს.",
+      "target": "UI, API, ფოტოები, ინტერესები და შედარება ერთნაირად იცავენ წესს.",
+      "checks": [
+        "ხილვადობის გამორთვა სხვა სესიაში",
+        "ძველი URL და cache",
+        "პირადი მედიის პირდაპირი URL",
+        "ბლოკი ორივე მიმართულებით",
+        "logout-ზე cache reset"
+      ],
+      "sources": [
+        "frontend/src/modules/me/MePage.tsx",
+        "backend/app/profiles/photos.py",
+        "backend/app/enrichment/router.py"
+      ],
+      "next": [
+        "ME",
+        "CONNECTIONS"
+      ],
+      "parent": "JST-009"
+    },
+    {
+      "id": "CONNECTIONS",
+      "group": "ურთიერთობები",
+      "title": "კავშირების მართვა",
+      "route": "/connections",
+      "kind": "route",
+      "current": "მიღებული, შემოსული, გაგზავნილი, დაბლოკილი tabs; accept/decline/cancel/remove/block/unblock.",
+      "target": "კანონიკური წყვილი, გასაგები მდგომარეობები და ორმხრივი თანხმობა.",
+      "checks": [
+        "ორმაგი მოთხოვნა",
+        "შემოსულის მიღება/უარყოფა",
+        "გაგზავნილის გაუქმება",
+        "remove/block კეტავს chat-ს",
+        "unblock ავტომატურად არ აღადგენს accepted-ს",
+        "პარალელური მოქმედებები"
+      ],
+      "sources": [
+        "frontend/src/modules/connections/ConnectionsPage.tsx",
+        "backend/app/connections/router.py"
+      ],
+      "next": [
+        "MESSAGES",
+        "CHAT",
+        "WHY",
+        "COMPARE"
+      ]
+    },
+    {
+      "id": "WHY",
+      "group": "ურთიერთობები",
+      "title": "რატომ ვეწყობით / ურთიერთობის ახსნა",
+      "route": "/people/:id/why",
+      "kind": "route",
+      "current": "კავშირის მიხედვით სრული Why ან დაშვებული preview; starters და საუბარში გადასვლა.",
+      "target": "ქულა და ინტერპრეტაცია განსხვავდება; სრული შედეგი მხოლოდ უფლებამოსილ გზაზე.",
+      "checks": [
+        "stranger/pending/accepted/blocked ოთხივე მდგომარეობა",
+        "სრული API ავტორიზაცია",
+        "missing birth data",
+        "არაიდენტური ურთიერთობის intent-ის ტექსტები",
+        "starter composer-შია და არ იგზავნება ავტომატურად"
+      ],
+      "sources": [
+        "frontend/src/modules/compatibility/WhyPage.tsx",
+        "backend/app/comparisons/router.py",
+        "backend/app/interpretation/router.py"
+      ],
+      "next": [
+        "CHAT",
+        "CONNECTIONS"
+      ],
+      "privacy": "exact astronomy და evidence-ის კერძო ველები არ გაჟონოს."
+    },
+    {
+      "id": "COMPARE",
+      "group": "ურთიერთობები",
+      "title": "ორი ადამიანის შედარება",
+      "route": "/compare/:id",
+      "kind": "route",
+      "current": "ორი პროფილი, accepted შედარება ან preview, კავშირის მოქმედებები.",
+      "target": "არსებული versioned score უცვლელია; შეცდომები და უფლებები თანმიმდევრულია.",
+      "checks": [
+        "საკუთარ თავთან შედარება",
+        "invalid/hidden target",
+        "accepted და preview განსხვავება",
+        "კავშირის ცვლილების შემდეგ cache",
+        "compare/why შორის თანმიმდევრობა"
+      ],
+      "sources": [
+        "frontend/src/modules/compatibility/ComparePage.tsx",
+        "backend/app/comparisons/router.py"
+      ],
+      "next": [
+        "WHY",
+        "CHAT",
+        "CONNECTIONS"
+      ]
+    },
+    {
+      "id": "MESSAGES",
+      "group": "მიმოწერა",
+      "title": "შეტყობინებების სია",
+      "route": "/messages",
+      "kind": "route",
+      "current": "ნებადართული საუბრები, ბოლო შეტყობინება, unread და აქტივობით დალაგება.",
+      "target": "ორი რეალური ნებადართული test-ანგარიშით end-to-end inbox.",
+      "checks": [
+        "ცარიელი inbox",
+        "ახალი შეტყობინება ცვლის რიგს",
+        "unread და გახსნილი chat",
+        "block/remove-ის შემდეგ გაქრობა",
+        "reconnect და tab resume"
+      ],
+      "sources": [
+        "frontend/src/modules/messages/MessagesPage.tsx",
+        "backend/app/conversations/router.py",
+        "frontend/src/core/realtime/SocialSync.tsx"
+      ],
+      "next": [
+        "CHAT"
+      ]
+    },
+    {
+      "id": "CHAT",
+      "group": "მიმოწერა",
+      "title": "ადამიანებს შორის ჩატი",
+      "route": "/chat/:conversation_id",
+      "kind": "route",
+      "current": "ისტორია, ძველი გვერდები, plain text composer, nonce/retry, პირადი read state.",
+      "target": "ადამიანების ჩატი დამოუკიდებელია JesterAI-ისგან; მობილურის კლავიატურა და კავშირის წესები მუშაობს.",
+      "checks": [
+        "გაგზავნა და დაბრუნებული პასუხი",
+        "ქსელის შეცდომაზე retry არ დუბლირდება",
+        "ძველი ისტორიის scroll",
+        "ფონში მიღებული შეტყობინება არ ითვლება წაკითხულად",
+        "block/send race",
+        "iOS/Android keyboard"
+      ],
+      "sources": [
+        "frontend/src/modules/chat/ChatPage.tsx",
+        "backend/app/conversations/router.py",
+        "docs/MESSAGING_WAVE4.md"
+      ],
+      "next": [
+        "MESSAGES",
+        "WHY"
+      ],
+      "privacy": "ჩატის ტექსტი არ მიდის analytics/session replay-ში."
+    },
+    {
+      "id": "NOTIFICATIONS",
+      "group": "სხვა გვერდები",
+      "title": "შეტყობინებების ცენტრი",
+      "route": "/notifications",
+      "kind": "route",
+      "current": "შეტყობინებების სია, წაკითხულად მონიშვნა და ტიპის მიხედვით გადასვლა; connection event producers არსებობს.",
+      "target": "რეალურად წარმოებული notification ტიპები სწორ მისამართზე მიდის.",
+      "checks": [
+        "შემოსული მოთხოვნა იხსნება შესაბამის tab-ზე",
+        "accept მოვლენის ბმული",
+        "mark read და badge თანხვედრა",
+        "ცარიელი/შეცდომა",
+        "logout/login არ აჩვენებს წინა ანგარიშის badge-ს"
+      ],
+      "sources": [
+        "frontend/src/modules/notifications/NotificationsPage.tsx",
+        "frontend/src/shared/AppShell.tsx",
+        "backend/app/connections/router.py"
+      ],
+      "next": [
+        "CONNECTIONS",
+        "CHAT",
+        "COMPARE"
+      ],
+      "gap": "ტიპის renderer არ ამტკიცებს, რომ ყველა მოვლენის producer/push სისტემა არსებობს."
+    },
+    {
+      "id": "WALLET",
+      "group": "სხვა გვერდები",
+      "title": "Stars-ის საფულე",
+      "route": "Home navigation · modal",
+      "kind": "overlay",
+      "current": "ბალანსი, ტრანზაქციები, ფასები და unlock; ფულის მიღება არ არის.",
+      "target": "Founder-მა განსაზღვროს launch-ზე ჩვენება/შეზღუდვა/Coming soon; ახალი ფულის წესი არ მოვიგონოთ.",
+      "checks": [
+        "ნულოვანი ბალანსი",
+        "სერვერული ტარიფები",
+        "double unlock და retry",
+        "შეცდომა არ უნდა გამოჩნდეს როგორც რეალური ნული",
+        "თავისუფალი/ჩაკეტილი ფუნქციები თანხვდება გადაწყვეტილებას"
+      ],
+      "sources": [
+        "frontend/src/modules/wallet/WalletModal.tsx",
+        "frontend/src/modules/wallet/useWallet.ts",
+        "backend/app/wallet/service.py"
+      ],
+      "next": [
+        "WEEKLY",
+        "INSIGHTS"
+      ],
+      "gap": "მონეტიზაციის launch პოლიტიკა გადაწყვეტას საჭიროებს.",
+      "parent": "JST-001"
+    },
+    {
+      "id": "AI",
+      "group": "JesterAI",
+      "title": "კითხე Jester-ს საკუთარ თავზე",
+      "route": "მთავარ აპში route ჯერ დასადგენია",
+      "kind": "planned",
+      "current": "ცალკე JesterAI პროტოტიპი არსებობს; მთავარ router-ში ინტეგრირებული გვერდი არ არის.",
+      "target": "ტექსტური აუდიენცია პროფილის/დღის ნებადართული კონტექსტით; 3 კითხვა და შემდეგ 5 საჩუქარი.",
+      "checks": [
+        "ვინაობა JWT-დან",
+        "სხვისი საუბრის აკრძალვა",
+        "კონტექსტის allowlist",
+        "პროვაიდერის timeout და retry",
+        "საჩუქარი ერთხელ და restart-ზე უცვლელი",
+        "სარკაზმი დამცირების გარეშე"
+      ],
+      "sources": [
+        "frontend/src/navigation/AppRoutes.tsx",
+        "docs/JESTER_AI_CONTEXT_SYSTEM_V1_SPEC.md"
+      ],
+      "next": [
+        "AI-GIFT",
+        "HOME"
+      ],
+      "gap": "UI route, ისტორიის მუდმივი შენახვა და მთავარი პლატფორმის ინტეგრაცია გასაკეთებელია.",
+      "parent": "JST-005"
+    },
+    {
+      "id": "AI-GIFT",
+      "group": "JesterAI",
+      "title": "სამი კითხვის შემდეგ ხუთი საჩუქარი",
+      "route": "JesterAI · quota state",
+      "kind": "planned",
+      "current": "მთავარ პროდუქტში ჯერ არ არის ინტეგრირებული.",
+      "target": "მესამე წარმატებული პასუხის შემდეგ ბრენდული საჩუქრის ტექსტი; კიდევ 5 კითხვა; შემდეგ გამჭვირვალე ლიმიტი.",
+      "checks": [
+        "შეკითხვა ითვლება შეთანხმებული წარმატების წესით",
+        "ერთდროული მოთხოვნები",
+        "წარუმატებელ პასუხზე აღდგენა",
+        "საჩუქარი არ მეორდება",
+        "დღის ინტერპრეტაცია არ ამტკიცებს რეალურად მომხდარ ამბავს",
+        "ლიმიტის შემდეგ ყალბი checkout არ არის"
+      ],
+      "sources": [
+        "docs/AI.md",
+        "docs/launch/2026-11-14-launch-planning-baseline.md"
+      ],
+      "next": [
+        "AI"
+      ],
+      "parent": "JST-006"
+    },
+    {
+      "id": "LOGOUT",
+      "group": "სხვა გვერდები",
+      "title": "გამოსვლა და სესიის შეცვლა",
+      "route": "/logout",
+      "kind": "route",
+      "current": "signOut, login redirect, retry; /auth/logout alias.",
+      "target": "მომხმარებლის private cache და subscription-ები აღარ რჩება.",
+      "checks": [
+        "signOut წარმატება/შეცდომა",
+        "უკან ღილაკი აღარ ხსნის პირად მონაცემებს",
+        "სხვა ანგარიშით შესვლა",
+        "realtime subscriptions cleanup"
+      ],
+      "sources": [
+        "frontend/src/navigation/AppRoutes.tsx",
+        "frontend/src/core/auth/context.tsx",
+        "frontend/src/core/realtime/SocialSync.tsx"
+      ],
+      "next": [
+        "LOGIN"
+      ]
+    },
+    {
+      "id": "SHELL",
+      "group": "გაშვების საერთო შემოწმება",
+      "title": "ნავიგაცია, deep links და aliases",
+      "route": "ყველა ძირითადი გვერდი",
+      "kind": "state",
+      "current": "desktop/mobile shell და legacy redirects არსებობს; wildcard root-ზე გადადის.",
+      "target": "მომხმარებელმა იცოდეს სადაა; უსაფრთხო უკან დაბრუნება და უცნობი URL-ის შეთანხმებული ქცევა.",
+      "checks": [
+        "ხუთი ძირითადი დანიშნულება",
+        "მობილურის safe-area",
+        "deep link ახალ სესიაში",
+        "ყველა legacy alias",
+        "unknown route",
+        "drawer/modal focus და Escape"
+      ],
+      "sources": [
+        "frontend/src/shared/AppShell.tsx",
+        "frontend/src/modules/home/HomeNavigation.tsx",
+        "frontend/src/navigation/AppRoutes.tsx"
+      ],
+      "next": [
+        "HOME",
+        "DISCOVER",
+        "ME",
+        "MESSAGES",
+        "CONNECTIONS"
+      ]
+    },
+    {
+      "id": "SUPPORT",
+      "group": "გაშვების საერთო შემოწმება",
+      "title": "მხარდაჭერა, საჩივარი და ანგარიშის მოთხოვნები",
+      "route": "route ჯერ დასადგენია",
+      "kind": "planned",
+      "current": "ამ მარშრუტების სრული პროდუქტის გზა router-ში არ მოიძებნა.",
+      "target": "Founder-ის მხარდაჭერასთან მისასვლელი გზა; მოდერაციის და ანგარიშის მოთხოვნების დამტკიცებული პროცესი.",
+      "checks": [
+        "დახმარების მიღება დაბლოკილი/ვერშესული მომხმარებლისთვის",
+        "საჩივრის მიღება და შემდგომი პასუხი",
+        "ანგარიშის მოთხოვნის ვინაობის შემოწმება",
+        "რეალური ჩანაწერების წაშლის გარეშე რეპეტიცია"
+      ],
+      "sources": [
+        "frontend/src/navigation/AppRoutes.tsx",
+        "docs/SECURITY.md"
+      ],
+      "next": [
+        "LOGIN"
+      ],
+      "gap": "support/moderation/account-deletion flow უნდა შეთანხმდეს და განხორციელდეს.",
+      "parent": "JST-010"
+    },
+    {
+      "id": "INTERNAL",
+      "group": "გაშვების საერთო შემოწმება",
+      "title": "შიდა სატესტო გვერდების იზოლაცია",
+      "route": "/visual-lab · /__lab · /__debug/backend-audit · /smoke-test · /content-inspector",
+      "kind": "internal",
+      "current": "სატესტო მარშრუტები router-ში უპირობოდაა რეგისტრირებული.",
+      "target": "production მომხმარებლისთვის შიდა ლაბორატორიები მიუწვდომელია; backend-იც იცავს საზღვრებს.",
+      "checks": [
+        "ყველა debug alias production build-ზე",
+        "ანონიმური და შესული მომხმარებელი",
+        "private endpoint სერვერული guard",
+        "შიდა ბმულები აღარ ჩანს navigation-ში"
+      ],
+      "sources": [
+        "frontend/src/navigation/AppRoutes.tsx",
+        "backend/app/astrology/debug.py"
+      ],
+      "next": [
+        "HOME"
+      ],
+      "parent": "JST-009"
+    },
+    {
+      "id": "ANALYTICS",
+      "group": "გაშვების საერთო შემოწმება",
+      "title": "სრული გზის ანალიტიკა",
+      "route": "ყველა დამტკიცებული ნაბიჯი",
+      "kind": "planned",
+      "current": "მოქმედ SDK კონფიგურაციას ეს ინვენტარი არ ადასტურებს.",
+      "target": "acquisition → signup → onboarding → first insight → დაბრუნება; გაზიარება და 3+5 ჩატი.",
+      "checks": [
+        "არც birth-data, არც ჩატის ტექსტი payload-ში",
+        "მოვლენა არ დუბლირდება retry-ზე",
+        "გაზიარების click განსხვავდება completion-ისგან",
+        "Clarity გამორიცხავს მგრძნობიარე გვერდებს",
+        "თანხმობის ქცევა გადამოწმებულია"
+      ],
+      "sources": [
+        "frontend/src/core/",
+        "docs/launch/2026-11-14-launch-planning-baseline.md"
+      ],
+      "next": [
+        "ENTRY"
+      ],
+      "parent": "JST-012"
+    }
+  ],
+  "journeys": [
+    {
+      "id": "new",
+      "title": "ახალი მომხმარებელი",
+      "steps": [
+        "ENTRY",
+        "REGISTER",
+        "VERIFY",
+        "CALLBACK",
+        "IDENTITY",
+        "BIRTHDATE",
+        "BIRTHTIME",
+        "BIRTHPLACE",
+        "CITY",
+        "INTERESTS",
+        "TRAITS",
+        "INTENTIONS",
+        "PHOTO",
+        "FINISH",
+        "HOME"
+      ],
+      "note": "ელფოსტის დადასტურება გარემოს პარამეტრებზეა დამოკიდებული; enrichment და ფოტო შეიძლება გამოტოვოს."
+    },
+    {
+      "id": "return",
+      "title": "დაბრუნებული მომხმარებელი",
+      "steps": [
+        "LOGIN",
+        "HOME",
+        "DAILY",
+        "INSIGHTS",
+        "DISCOVER"
+      ],
+      "note": "დაუმთავრებელი პროფილი ჯერ RESUME გზაზე გადადის."
+    },
+    {
+      "id": "social",
+      "title": "აღმოჩენიდან ურთიერთობამდე",
+      "steps": [
+        "DISCOVER",
+        "DECK",
+        "PERSON",
+        "CONNECTIONS",
+        "WHY",
+        "MESSAGES",
+        "CHAT"
+      ],
+      "note": "სრული შედარება და ადამიანებს შორის მიმოწერა მოქმედ ავტორიზაციასა და კავშირის მდგომარეობაზეა დამოკიდებული."
+    },
+    {
+      "id": "ai",
+      "title": "თვითშეცნობიდან JesterAI-მდე",
+      "steps": [
+        "HOME",
+        "DAILY",
+        "AI",
+        "AI-GIFT"
+      ],
+      "note": "შეთანხმებული სამიზნე გზა; მთავარი აპის AI ინტეგრაცია ჯერ გასაკეთებელია."
+    },
+    {
+      "id": "viral",
+      "title": "გაზიარებიდან ახალ ვიზიტამდე",
+      "steps": [
+        "INSIGHTS",
+        "SHARE",
+        "ENTRY",
+        "REGISTER"
+      ],
+      "note": "არ ავურიოთ გაზიარების მოქმედება მეგობრის მიერ მიღებასა ან რეგისტრაციაში."
+    }
+  ],
+  "commonChecks": [
+    "Loading, success, empty, error და retry",
+    "ავტორიზაცია, პირდაპირი URL და საჭირო privacy-safe პასუხი",
+    "მობილური ქართული ტიპოგრაფია, keyboard, focus და accessibility",
+    "ქსელის წყვეტა, refresh/back და დაბრუნება",
+    "არავითარი საიდუმლო ან პირადი ინფორმაცია ანალიტიკაში/მტკიცებულებაში"
+  ],
+  "aliases": [
+    [
+      "/welcome",
+      "/auth/register"
+    ],
+    [
+      "/auth/choice",
+      "/auth/register"
+    ],
+    [
+      "/get-started",
+      "/auth/register"
+    ],
+    [
+      "/reset-password",
+      "/auth/reset-password"
+    ],
+    [
+      "/auth/logout",
+      "/logout"
+    ],
+    [
+      "/onboarding",
+      "/onboarding/birth-data ან /"
+    ],
+    [
+      "/people",
+      "/discover"
+    ],
+    [
+      "/why/:target_id",
+      "/people/:id/why"
+    ],
+    [
+      "/self",
+      "/me"
+    ],
+    [
+      "/self/astrology",
+      "/me"
+    ],
+    [
+      "/self/profile",
+      "/me"
+    ],
+    [
+      "/app/*",
+      "/"
+    ],
+    [
+      "*",
+      "/"
+    ],
+    [
+      "/compare/:target_id",
+      "/compare/:id (იგივე pattern)"
+    ],
+    [
+      "/__lab",
+      "/visual-lab (იგივე კომპონენტი)"
+    ],
+    [
+      "/__lab/backend-audit",
+      "/__debug/backend-audit"
+    ],
+    [
+      "/debug/backend-audit",
+      "/__debug/backend-audit"
+    ],
+    [
+      "/ux-test",
+      "/smoke-test"
+    ],
+    [
+      "/inspector",
+      "/content-inspector"
+    ]
+  ]
+}

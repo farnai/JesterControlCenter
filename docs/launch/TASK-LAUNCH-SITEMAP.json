@@ -1,0 +1,18 @@
+{
+  "id": "TASK-LAUNCH-SITEMAP",
+  "title": "Local launch workspace user journey map and acceptance tasks",
+  "type": "feature",
+  "status": "review",
+  "priority": "normal",
+  "role": "executor",
+  "assigned_agent": "codex",
+  "required_capabilities": ["repository_read", "repository_write", "command_execution", "testing"],
+  "goal": "Prepare the code-grounded detailed user journey and launch checks locally before publication.",
+  "scope": ["design/visual-studio/launch-control", ".jester/reports/implementations/TASK-LAUNCH-SITEMAP_report.md"],
+  "constraints": ["No publication, commit or push", "Preserve existing task records", "No product source changes", "Do not equate inventory with runtime verification"],
+  "acceptance_criteria": ["Inventory references existing sources", "Onboarding, Home, discovery and remaining routes are represented", "Each node opens a scoped acceptance task", "Local build and typecheck pass"],
+  "verification": ["node scripts/verify-journey-map.mjs", "npx tsc --noEmit", "npm run build", "Local records GET and browser map-to-task check"],
+  "dependencies": [],
+  "created_at": "2026-11-15",
+  "updated_at": "2026-11-15"
+}
